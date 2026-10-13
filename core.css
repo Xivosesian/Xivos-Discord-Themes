@@ -1,0 +1,335 @@
+/*
+ * Xivo's Discord Themes - core
+ * Shared structure for every character. A file in characters/ loaded after it
+ * sets the colors, images and fonts; on its own it uses a neutral pink palette.
+ */
+
+@font-face {
+  font-family: "Single Day";
+  font-display: swap;
+  src: url("https://xivosesian.github.io/Xivos-Discord-Themes/assets/fonts/single-day-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Pacifico";
+  font-display: swap;
+  src: url("https://xivosesian.github.io/Xivos-Discord-Themes/assets/fonts/pacifico-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Permanent Marker";
+  font-display: swap;
+  src: url("https://xivosesian.github.io/Xivos-Discord-Themes/assets/fonts/permanent-marker-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Edu Hand";
+  font-display: swap;
+  src: url("https://xivosesian.github.io/Xivos-Discord-Themes/assets/fonts/edu-qld-hand-v3-latin-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Anaheim";
+  font-display: swap;
+  src: url("https://xivosesian.github.io/Xivos-Discord-Themes/assets/fonts/anaheim-v17-latin-regular.woff2") format("woff2");
+}
+
+
+/* ================================
+   Character palette
+   Every characters/*.css file overrides these. A character only needs the two
+   accents; tint and text colors are derived from the accent unless overridden.
+================================ */
+
+:root {
+  /* Images must come from a host Vencord allows (see note 4 above). Use none for no image. */
+  --uadt-background-image: none;
+  --uadt-home-icon: none;
+  --uadt-home-logo: visible; /* hidden when a home icon replaces Discord's logo */
+
+  --uadt-accent: #ff8ad8;      /* hover, selection, buttons, message bubbles */
+  --uadt-accent-alt: #7fdcff;  /* message box outline, secondary highlights */
+  --uadt-tint: color-mix(in srgb, var(--uadt-accent) 16%, #0c0a10); /* base of every glass panel and popout */
+
+  --uadt-text: color-mix(in srgb, var(--uadt-accent) 14%, white);
+  --uadt-text-strong: color-mix(in srgb, var(--uadt-accent) 22%, white);
+  --uadt-text-muted: color-mix(in srgb, var(--uadt-accent) 30%, #a6a3b3);
+  --uadt-link: color-mix(in srgb, var(--uadt-accent) 70%, white);
+
+  --uadt-font-body: "Edu Hand";
+  --uadt-font-heading: "Pacifico";
+  --uadt-font-button: "Anaheim";
+}
+
+
+/* ================================
+   Knobs - tweak these
+================================ */
+
+:root {
+  --uadt-glass-strength: 45%;   /* how dark the panels are: 0% is see-through, 100% is solid */
+  --uadt-bubble-strength: 16%;  /* message bubble tint: 0% turns bubbles off */
+  --uadt-radius: 10px;
+
+  --uadt-backdrop-dim: 55%;     /* black mask over the background art: 0% is off, 100% is black */
+  --uadt-backdrop-overlay: rgb(0 0 0 / var(--uadt-backdrop-dim));
+  --uadt-backdrop-blur: 0px;
+  --uadt-backdrop-brightness: 0.85;
+  --uadt-backdrop-saturate: 1.2;
+
+  --uadt-text-shadow: 0 1px 2px rgb(0 0 0 / 0.55); /* keeps text readable over busy art */
+}
+
+
+/* ================================
+   Derived colors - normally left alone
+================================ */
+
+:root {
+  --uadt-glass: color-mix(in srgb, var(--uadt-tint) var(--uadt-glass-strength), transparent);
+  --uadt-glass-strong: color-mix(in srgb, var(--uadt-tint) calc(var(--uadt-glass-strength) + 20%), transparent);
+  --uadt-surface: color-mix(in srgb, var(--uadt-tint) 92%, transparent);
+  --uadt-hover: color-mix(in srgb, var(--uadt-accent) 14%, transparent);
+  --uadt-selected: color-mix(in srgb, var(--uadt-accent) 28%, transparent);
+  --uadt-bubble: color-mix(in srgb, var(--uadt-accent) var(--uadt-bubble-strength), transparent);
+  --uadt-border: color-mix(in srgb, var(--uadt-accent) 22%, transparent);
+  --uadt-accent-strong: color-mix(in srgb, var(--uadt-accent) 80%, black);
+}
+
+
+/* ================================
+   Design tokens
+   Discord defines its tokens on every .theme-* element (popouts and layers
+   repeat the class), so override on all of them, with !important to beat
+   Nitro gradient and profile themes that set the same tokens.
+================================ */
+
+:root,
+.theme-dark,
+.theme-darker,
+.theme-midnight,
+.theme-light {
+  /* App backgrounds: clear so the backdrop shows through */
+  --background-base-lowest: transparent !important;
+  --background-base-lower: transparent !important;
+  --background-base-low: transparent !important;
+  --background-gradient-app-frame: transparent !important;
+  --background-gradient-lowest: transparent !important;
+  --background-gradient-lower: transparent !important;
+  --background-gradient-low: transparent !important;
+  --background-gradient-high: transparent !important;
+  --background-gradient-chat: transparent !important;
+  --chat-background-default: transparent !important;
+  --custom-channel-members-bg: transparent !important;
+
+  /* Floating surfaces: popouts, menus, modals, emoji picker */
+  --background-surface-high: var(--uadt-surface) !important;
+  --background-surface-higher: var(--uadt-surface) !important;
+  --background-surface-highest: var(--uadt-surface) !important;
+  --modal-background: var(--uadt-surface) !important;
+  --card-background-default: var(--uadt-glass) !important;
+
+  /* Message box */
+  --input-background-default: var(--uadt-glass-strong) !important;
+  --background-gradient-highest: var(--uadt-glass-strong) !important;
+  --channeltextarea-background: var(--uadt-glass-strong) !important;
+  --input-placeholder-text-default: var(--uadt-text-muted) !important;
+
+  /* Text */
+  --text-default: var(--uadt-text) !important;
+  --text-strong: var(--uadt-text-strong) !important;
+  --text-muted: var(--uadt-text-muted) !important;
+  --text-subtle: var(--uadt-text-muted) !important;
+  --text-link: var(--uadt-link) !important;
+  --chat-text-muted: var(--uadt-text-muted) !important;
+  --channels-default: var(--uadt-text-muted) !important;
+  --interactive-text-default: var(--uadt-text-muted) !important;
+  --interactive-text-hover: var(--uadt-text-strong) !important;
+  --interactive-text-active: var(--uadt-text-strong) !important;
+
+  /* Accent: buttons, toggles, mentions, the home button hover */
+  --brand-500: var(--uadt-accent) !important;
+  --brand-560: var(--uadt-accent-strong) !important;
+  --background-brand: var(--uadt-accent) !important;
+  --text-brand: var(--uadt-accent) !important;
+  --control-brand-foreground: var(--uadt-accent) !important;
+  --control-brand-foreground-new: var(--uadt-accent) !important;
+  --control-primary-background-default: var(--uadt-accent-strong) !important;
+  --control-primary-background-hover: var(--uadt-accent) !important;
+  --control-primary-background-active: var(--uadt-accent-strong) !important;
+  --mention-background: color-mix(in srgb, var(--uadt-accent) 30%, transparent) !important;
+  --mention-foreground: var(--uadt-text-strong) !important;
+
+  /* Hover / selected states */
+  --background-mod-subtle: var(--uadt-hover) !important;
+  --background-mod-muted: var(--uadt-hover) !important;
+  --background-mod-normal: var(--uadt-selected) !important;
+  --background-mod-strong: var(--uadt-selected) !important;
+  --interactive-background-hover: var(--uadt-hover) !important;
+  --interactive-background-active: var(--uadt-selected) !important;
+  --interactive-background-selected: var(--uadt-selected) !important;
+  --message-background-hover: var(--uadt-hover) !important;
+
+  /* Borders */
+  --border-subtle: var(--uadt-border) !important;
+  --border-muted: var(--uadt-border) !important;
+  --app-frame-border: var(--uadt-border) !important;
+  --app-border-frame: var(--uadt-border) !important;
+
+  /* Scrollbars */
+  --scrollbar-thin-thumb: var(--uadt-selected) !important;
+  --scrollbar-thin-track: transparent !important;
+  --scrollbar-auto-thumb: var(--uadt-selected) !important;
+  --scrollbar-auto-track: transparent !important;
+  --scrollbar-auto-scrollbar-color-thumb: var(--uadt-selected) !important;
+  --scrollbar-auto-scrollbar-color-track: transparent !important;
+
+  /* Fonts. Each list ends in Discord's own fonts so non-Latin text still renders. */
+  --font-primary: var(--uadt-font-body), "gg sans", "Noto Sans", sans-serif !important;
+  --font-headline: var(--uadt-font-heading), var(--uadt-font-body), "gg sans", sans-serif !important;
+
+  /* Corners */
+  --radius-sm: var(--uadt-radius) !important;
+  --radius-md: calc(var(--uadt-radius) + 4px) !important;
+  --radius-lg: calc(var(--uadt-radius) + 8px) !important;
+}
+
+
+/* ================================
+   Backdrop
+   Lives on <html>, which Discord can never rename. Its own root layers
+   (body, #app-mount, the layers bg) paint --background-base-lowest, cleared above.
+   Without an image, a gradient in the character's colors shows instead.
+================================ */
+
+html {
+  background: var(--uadt-tint);
+}
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--uadt-backdrop-overlay), var(--uadt-backdrop-overlay)),
+    var(--uadt-background-image) center / cover no-repeat,
+    radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--uadt-accent) 45%, transparent), transparent 55%),
+    radial-gradient(circle at 85% 90%, color-mix(in srgb, var(--uadt-accent-alt) 40%, transparent), transparent 55%),
+    var(--uadt-tint);
+  filter: blur(var(--uadt-backdrop-blur)) brightness(var(--uadt-backdrop-brightness)) saturate(var(--uadt-backdrop-saturate));
+}
+body,
+#app-mount {
+  background: transparent !important;
+}
+
+
+/* ================================
+   Regions
+   One glass tint everywhere so the art stays the focus;
+   the accent color only shows on hover, selection and bubbles.
+================================ */
+
+/* Server list */
+[data-list-id="guildsnav"],
+nav[class^="guilds_"],
+nav[class*=" guilds_"] {
+  background-color: var(--uadt-glass) !important;
+}
+[data-list-id="guildsnav"]::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+/* Channel list and DM list */
+[class^="sidebarList_"],
+[class*=" sidebarList_"],
+[class^="privateChannels_"],
+[class*=" privateChannels_"] {
+  background-color: var(--uadt-glass) !important;
+}
+
+/* Member list and the friends page "Active Now" column */
+[class^="membersWrap_"],
+[class*=" membersWrap_"],
+[class^="peopleColumn_"],
+[class*=" peopleColumn_"] {
+  background-color: var(--uadt-glass) !important;
+  box-shadow: none !important;
+}
+
+/* User panel (bottom left) */
+:is([class^="sidebar_"], [class*=" sidebar_"]) :is([class^="panels_"], [class*=" panels_"]) {
+  background: var(--uadt-glass-strong) !important;
+  border: 1px solid var(--uadt-border);
+}
+
+/* Full-screen layers stacked over the app, such as settings */
+:is([class^="layers_"], [class*=" layers_"]) > :is([class^="layer_"], [class*=" layer_"]) ~ :is([class^="layer_"], [class*=" layer_"]) {
+  background-color: var(--uadt-glass-strong) !important;
+}
+
+
+/* ================================
+   Messages
+================================ */
+
+li[id^="chat-messages-"] > [role="article"]:not([class*="mentioned_"]) {
+  background-color: var(--uadt-bubble);
+  border-radius: var(--uadt-radius);
+}
+li[id^="chat-messages-"] > [role="article"]:not([class*="mentioned_"]):hover {
+  background-color: color-mix(in srgb, var(--uadt-accent) calc(var(--uadt-bubble-strength) + 8%), transparent);
+}
+
+[id^="message-content-"],
+[class^="markup_"],
+[class*=" markup_"] {
+  color: var(--uadt-text);
+  text-shadow: var(--uadt-text-shadow);
+}
+
+/* Message box */
+[class^="channelTextArea_"],
+[class*=" channelTextArea_"] {
+  border: 1px solid color-mix(in srgb, var(--uadt-accent-alt) 35%, transparent);
+  border-radius: calc(var(--uadt-radius) + 4px);
+}
+
+
+/* ================================
+   Popouts, menus, modals
+   Floating layers sit over the backdrop, so blur what is behind them.
+================================ */
+
+[role="menu"],
+[role="dialog"],
+[role="listbox"],
+[role="tooltip"] {
+  backdrop-filter: blur(12px);
+}
+
+
+/* ================================
+   Home icon
+   Scoped to the Home button only, so the add-server and discover buttons
+   keep their icons. With no icon set, Discord's logo sits on an accent gradient.
+================================ */
+
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"] {
+  background:
+    var(--uadt-home-icon) center / cover no-repeat,
+    linear-gradient(135deg, var(--uadt-accent), var(--uadt-accent-alt)) !important;
+}
+[data-list-item-id="guildsnav___home"] [class*="childWrapper_"] > * {
+  visibility: var(--uadt-home-logo) !important;
+}
+
+
+/* ================================
+   Fonts
+   Body text comes from --font-primary above; these elements get the accent fonts.
+================================ */
+
+h1, h2, h3 {
+  font-family: var(--uadt-font-heading), var(--uadt-font-body), "gg sans", sans-serif !important;
+}
+button {
+  font-family: var(--uadt-font-button), var(--uadt-font-body), "gg sans", sans-serif !important;
+}
